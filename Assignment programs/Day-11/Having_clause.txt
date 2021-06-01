@@ -1,0 +1,56 @@
+mysql> create table Workers(id int,name varchar(30),working_date date,working_hours int);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into Workers values(1,'Tony Stark','2021-02-12',13),(2,'Steve Rogers','2021-02-12', 10),(3,'Bruce Banner','2021-02-12',9),(4,'Loki','2021-02-12',10);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into Workers values(1,'Tony Stark','2021-02-13',10),(2,'Steve Rogers','2021-02-13', 10),(3,'Bruce Banner','2021-02-13',7),(4,'Loki','2021-02-13',8);
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into Workers values(1,'Tony Stark','2021-02-14',5),(2,'Steve Rogers','2021-02-14', 6),(3,'Bruce Banner','2021-02-14',9),(4,'Loki','2021-02-14',5);
+Query OK, 4 rows affected (0.06 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from Workers;
++------+--------------+--------------+---------------+
+| id   | name         | working_date | working_hours |
++------+--------------+--------------+---------------+
+|    1 | Tony Stark   | 2021-02-12   |            13 |
+|    2 | Steve Rogers | 2021-02-12   |            10 |
+|    3 | Bruce Banner | 2021-02-12   |             9 |
+|    4 | Loki         | 2021-02-12   |            10 |
+|    1 | Tony Stark   | 2021-02-13   |            10 |
+|    2 | Steve Rogers | 2021-02-13   |            10 |
+|    3 | Bruce Banner | 2021-02-13   |             7 |
+|    4 | Loki         | 2021-02-13   |             8 |
+|    1 | Tony Stark   | 2021-02-14   |             5 |
+|    2 | Steve Rogers | 2021-02-14   |             6 |
+|    3 | Bruce Banner | 2021-02-14   |             9 |
+|    4 | Loki         | 2021-02-14   |             5 |
++------+--------------+--------------+---------------+
+12 rows in set (0.00 sec)
+
+mysql> select name, sum(working_hours) as 'Total working hours' from Workers group by name;
++--------------+---------------------+
+| name         | Total working hours |
++--------------+---------------------+
+| Bruce Banner |                  25 |
+| Loki         |                  23 |
+| Steve Rogers |                  26 |
+| Tony Stark   |                  28 |
++--------------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> select name, sum(working_hours) as 'Total working hours' from Workers group by name having sum(working_hours)>25;
++--------------+---------------------+
+| name         | Total working hours |
++--------------+---------------------+
+| Steve Rogers |                  26 |
+| Tony Stark   |                  28 |
++--------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> select name, sum(working_hours) as 'Total working hours' from Workers group by name having Total working hours>25;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'working hours>25' at line 1.
