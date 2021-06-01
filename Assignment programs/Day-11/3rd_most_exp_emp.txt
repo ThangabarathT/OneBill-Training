@@ -1,0 +1,37 @@
+mysql> select * from employee;
++-------+---------+-------------+------------+------------+------------+--------+------+------+-------------------+
+| empid | name    | email       | mobile     | dob        | doj        | gender | exp  | dept | designation       |
++-------+---------+-------------+------------+------------+------------+--------+------+------+-------------------+
+|     1 | Rahul   | r@r.com     | 234234234  | 1980-12-30 | 2015-11-09 | m      |    6 | A    | Software Engineer |
+|     2 | Rohit   | r@re.com    | 234264234  | 1982-12-30 | 2017-11-09 | m      |    7 | A    | Software Engineer |
+|     3 | Rajath  | ra@r.in     | 9876543210 | 1975-10-30 | 2014-11-09 | m      |   10 | B    | Tester            |
+|     4 | Rakesh  | ra@r.in     | 9876543210 | 1990-10-30 | 2019-11-09 | m      |    3 | A    | Software Engineer |
+|     5 | Reshma  | reshma@r.in | 9876543210 | 1989-10-30 | 2020-11-09 | f      |    2 | B    | Software Engineer |
+|     6 | Rebecca | rb@r.in     | 9876543210 | 1990-09-09 | 2018-11-09 | f      |    6 | C    | Admin             |
++-------+---------+-------------+------------+------------+------------+--------+------+------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> select max(exp) from employee;
++----------+
+| max(exp) |
++----------+
+|       10 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(exp) from employee where exp < (select max(exp) from employee);
++----------+
+| max(exp) |
++----------+
+|        7 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(exp) from employee where exp < (select max(exp) from employee where exp < (select max(exp) from employee));
++----------+
+| max(exp) |
++----------+
+|        6 |
++----------+
+1 row in set (0.00 sec)
+
