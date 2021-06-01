@@ -1,0 +1,124 @@
+mysql> select * from customer;
++-----+---------------+-------------+
+| cid | Customer_name | Designation |
++-----+---------------+-------------+
+|   1 | Rohan         | Engineer    |
+|   2 | Raj           | Tester      |
+|   3 | Rohit         | Analyst     |
+|   4 | Nandan        | HR          |
++-----+---------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++-----+--------+------+
+| oid | amount | cid  |
++-----+--------+------+
+| 601 | 10000  |    1 |
+| 602 | 20000  |    4 |
+| 603 | 15000  |    2 |
++-----+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer left join orders on orders.cid = customer.cid;
++-----+---------------+-------------+------+--------+------+
+| cid | Customer_name | Designation | oid  | amount | cid  |
++-----+---------------+-------------+------+--------+------+
+|   1 | Rohan         | Engineer    |  601 | 10000  |    1 |
+|   4 | Nandan        | HR          |  602 | 20000  |    4 |
+|   2 | Raj           | Tester      |  603 | 15000  |    2 |
+|   3 | Rohit         | Analyst     | NULL | NULL   | NULL |
++-----+---------------+-------------+------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer right join orders on orders.cid = customer.cid;
++------+---------------+-------------+-----+--------+------+
+| cid  | Customer_name | Designation | oid | amount | cid  |
++------+---------------+-------------+-----+--------+------+
+|    1 | Rohan         | Engineer    | 601 | 10000  |    1 |
+|    2 | Raj           | Tester      | 603 | 15000  |    2 |
+|    4 | Nandan        | HR          | 602 | 20000  |    4 |
++------+---------------+-------------+-----+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> insert into orders values(604,30000,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer right join orders on orders.cid = customer.cid;
++------+---------------+-------------+-----+--------+------+
+| cid  | Customer_name | Designation | oid | amount | cid  |
++------+---------------+-------------+-----+--------+------+
+|    1 | Rohan         | Engineer    | 601 | 10000  |    1 |
+|    2 | Raj           | Tester      | 603 | 15000  |    2 |
+|    4 | Nandan        | HR          | 602 | 20000  |    4 |
+| NULL | NULL          | NULL        | 604 | 30000  |    5 |
++------+---------------+-------------+-----+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer left join orders on orders.cid = customer.cid union select * from customer right join orders on orders.cid = customer.cid;
++------+---------------+-------------+------+--------+------+
+| cid  | Customer_name | Designation | oid  | amount | cid  |
++------+---------------+-------------+------+--------+------+
+|    1 | Rohan         | Engineer    |  601 | 10000  |    1 |
+|    4 | Nandan        | HR          |  602 | 20000  |    4 |
+|    2 | Raj           | Tester      |  603 | 15000  |    2 |
+|    3 | Rohit         | Analyst     | NULL | NULL   | NULL |
+| NULL | NULL          | NULL        |  604 | 30000  |    5 |
++------+---------------+-------------+------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> select orders.cid, Customer_name from customer cross join orders;
++------+---------------+
+| cid  | Customer_name |
++------+---------------+
+|    1 | Rohan         |
+|    1 | Raj           |
+|    1 | Rohit         |
+|    1 | Nandan        |
+|    4 | Rohan         |
+|    4 | Raj           |
+|    4 | Rohit         |
+|    4 | Nandan        |
+|    2 | Rohan         |
+|    2 | Raj           |
+|    2 | Rohit         |
+|    2 | Nandan        |
+|    5 | Rohan         |
+|    5 | Raj           |
+|    5 | Rohit         |
+|    5 | Nandan        |
++------+---------------+
+16 rows in set (0.00 sec)
+
+mysql> select orders.oid, Customer_name from customer cross join orders;
++-----+---------------+
+| oid | Customer_name |
++-----+---------------+
+| 601 | Rohan         |
+| 601 | Raj           |
+| 601 | Rohit         |
+| 601 | Nandan        |
+| 602 | Rohan         |
+| 602 | Raj           |
+| 602 | Rohit         |
+| 602 | Nandan        |
+| 603 | Rohan         |
+| 603 | Raj           |
+| 603 | Rohit         |
+| 603 | Nandan        |
+| 604 | Rohan         |
+| 604 | Raj           |
+| 604 | Rohit         |
+| 604 | Nandan        |
++-----+---------------+
+16 rows in set (0.00 sec)
+
+mysql> select orders.oid, Customer_name from customer cross join orders where customer.cid=orders.cid;
++-----+---------------+
+| oid | Customer_name |
++-----+---------------+
+| 601 | Rohan         |
+| 602 | Nandan        |
+| 603 | Raj           |
++-----+---------------+
+3 rows in set (0.01 sec)
+
