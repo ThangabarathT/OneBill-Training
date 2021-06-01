@@ -1,0 +1,47 @@
+mysql> select * from person;
++----+-------+--------+-----------------+
+| id | name  | salary | mailid          |
++----+-------+--------+-----------------+
+|  1 | Tony  |  50000 | tony@gmail.com  |
+|  2 | Steve |  45000 | steve@gmail.com |
+|  3 | Peter |  30000 | peter@gmail.com |
++----+-------+--------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from person where salary<40000;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from person;
++----+-------+--------+-----------------+
+| id | name  | salary | mailid          |
++----+-------+--------+-----------------+
+|  1 | Tony  |  50000 | tony@gmail.com  |
+|  2 | Steve |  45000 | steve@gmail.com |
++----+-------+--------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into person values(3,'Peter',40000,'peter@gmail.com'),(4,'Bruce',30000,'bruce@gmail.com');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from person;
++----+-------+--------+-----------------+
+| id | name  | salary | mailid          |
++----+-------+--------+-----------------+
+|  1 | Tony  |  50000 | tony@gmail.com  |
+|  2 | Steve |  45000 | steve@gmail.com |
+|  3 | Peter |  40000 | peter@gmail.com |
+|  4 | Bruce |  30000 | bruce@gmail.com |
++----+-------+--------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table person;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from person;
+Empty set (0.00 sec)
+
+mysql> select * from person;
+Empty set (0.01 sec)
+
+mysql>
