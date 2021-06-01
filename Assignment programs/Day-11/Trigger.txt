@@ -1,0 +1,142 @@
+mysql> select * from item;
++--------+----------+------+-------+-----------+
+| itemid | itemdesc | qoh  | price | category  |
++--------+----------+------+-------+-----------+
+|      1 | Perfume  |   50 |   100 | Cosmetics |
+|      2 | Marie    |   50 |   100 | Snacks    |
++--------+----------+------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from sales;
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
++-----+--------+---------+-------+-------+
+1 row in set (0.00 sec)
+
+mysql> insert into sales values(102,1,10,10,0);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from item;
++--------+----------+------+-------+-----------+
+| itemid | itemdesc | qoh  | price | category  |
++--------+----------+------+-------+-----------+
+|      1 | Perfume  |   50 |   100 | Cosmetics |
+|      2 | Marie    |   50 |   100 | Snacks    |
++--------+----------+------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from sales;
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      1 |      10 |    10 |     0 |
++-----+--------+---------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delimiter $$
+mysql> create trigger t1
+    -> before insert
+    -> on sales
+    -> for each row
+    -> set new.total=new.qtysold*new.price
+    -> $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into sales values(103,1,10,10,0);
+    -> $$
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into sales values(104,2,5,10,0)$$
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from sales;
+    -> $$
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      1 |      10 |    10 |     0 |
+| 103 |      1 |      10 |    10 |   100 |
+| 104 |      2 |       5 |    10 |    50 |
++-----+--------+---------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from item$$
++--------+----------+------+-------+-----------+
+| itemid | itemdesc | qoh  | price | category  |
++--------+----------+------+-------+-----------+
+|      1 | Perfume  |   50 |   100 | Cosmetics |
+|      2 | Marie    |   50 |   100 | Snacks    |
++--------+----------+------+-------+-----------+
+2 rows in set (0.01 sec)
+
+mysql> create trigger t2
+    -> after insert
+    -> on sales
+    -> for each row
+    -> begin
+    -> update item set qoh=qoh-new.qtysold where itemid=new.itemid;
+    -> end$$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select * from item;
++--------+----------+------+-------+-----------+
+| itemid | itemdesc | qoh  | price | category  |
++--------+----------+------+-------+-----------+
+|      1 | Perfume  |   50 |   100 | Cosmetics |
+|      2 | Marie    |   50 |   100 | Snacks    |
++--------+----------+------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from sales;
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      1 |      10 |    10 |     0 |
+| 103 |      1 |      10 |    10 |   100 |
+| 104 |      2 |       5 |    10 |    50 |
++-----+--------+---------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into sales values(105,1,10,10,0),(106,2,5,10,0);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from item;
++--------+----------+------+-------+-----------+
+| itemid | itemdesc | qoh  | price | category  |
++--------+----------+------+-------+-----------+
+|      1 | Perfume  |   40 |   100 | Cosmetics |
+|      2 | Marie    |   45 |   100 | Snacks    |
++--------+----------+------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from sales;
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      1 |      10 |    10 |     0 |
+| 103 |      1 |      10 |    10 |   100 |
+| 104 |      2 |       5 |    10 |    50 |
+| 105 |      1 |      10 |    10 |   100 |
+| 106 |      2 |       5 |    10 |    50 |
++-----+--------+---------+-------+-------+
+6 rows in set (0.01 sec)
+
+mysql> show triggers;
++---------+--------+-------+------------------------------------------------------------------------+--------+------------------------+------------------------------------------------+-------------------+----------------------+----------------------+--------------------+
+| Trigger | Event  | Table | Statement                                                              | Timing | Created                | sql_mode                                       | Definer           | character_set_client | collation_connection | Database Collation |
++---------+--------+-------+------------------------------------------------------------------------+--------+------------------------+------------------------------------------------+-------------------+----------------------+----------------------+--------------------+
+| t1      | INSERT | sales | set new.total=new.qtysold*new.price                                    | BEFORE | 2021-05-31 21:58:16.56 | ERROR_FOR_DIVISION_BY_ZERO,HIGH_NOT_PRECEDENCE | onebill@localhost | utf8                 | utf8_general_ci      | latin1_swedish_ci  |
+| t2      | INSERT | sales | begin
+update item set qoh=qoh-new.qtysold where itemid=new.itemid;
+end | AFTER  | 2021-05-31 22:01:29.65 | ERROR_FOR_DIVISION_BY_ZERO,HIGH_NOT_PRECEDENCE | onebill@localhost | utf8                 | utf8_general_ci      | latin1_swedish_ci  |
++---------+--------+-------+------------------------------------------------------------------------+--------+------------------------+------------------------------------------------+-------------------+----------------------+----------------------+--------------------+
+2 rows in set (0.00 sec)
+
