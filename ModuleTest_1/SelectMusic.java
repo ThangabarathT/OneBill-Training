@@ -7,19 +7,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class SelectMusic {
-
+	static String url;
+	static String user;
+	static String password;
 	static Connection con = null;
 	static Statement stmt = null;
 	static ResultSet rs = null;
-
 	static ArrayList<MusicFiles> song = new ArrayList<MusicFiles>();
+
+	public SelectMusic(String url, String user, String password) {
+		SelectMusic.url = url;
+		SelectMusic.user = user;
+		SelectMusic.password = password;
+	}
 
 	public ArrayList<MusicFiles> select() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/MusicPlayer";
-			String user = "onebill";
-			String password = "onebill";
 
 			con = DriverManager.getConnection(url, user, password);
 

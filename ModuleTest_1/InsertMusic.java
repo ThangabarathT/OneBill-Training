@@ -5,17 +5,23 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class InsertMusic {
+	static String url;
+	static String user;
+	static String password;
 	static Connection con = null;
 	static PreparedStatement ps = null;
+
+	public InsertMusic(String url, String user, String password) {
+		InsertMusic.url = url;
+		InsertMusic.user = user;
+		InsertMusic.password = password;
+	}
 
 	public static String insert(String songTitle, String artistName, String albumName, String songLocation,
 			String description) {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/MusicPlayer";
-			String user = "onebill";
-			String password = "onebill";
 
 			con = DriverManager.getConnection(url, user, password);
 

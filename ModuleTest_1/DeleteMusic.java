@@ -5,15 +5,22 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class DeleteMusic {
+	static String url;
+	static String user;
+	static String password;
 	static Connection con = null;
 	static PreparedStatement ps = null;
+
+	public DeleteMusic(String url, String user, String password) {
+		DeleteMusic.url = url;
+		DeleteMusic.user = user;
+		DeleteMusic.password = password;
+	}
+
 	public static String delete(int songID) {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/MusicPlayer";
-			String user = "onebill";
-			String password = "onebill";
 
 			con = DriverManager.getConnection(url, user, password);
 
@@ -21,7 +28,7 @@ public class DeleteMusic {
 			ps = con.prepareStatement(query);
 
 			ps.setInt(1, songID);
-			
+
 			ps.executeUpdate();
 
 			return "Deleted Successfully";
@@ -40,7 +47,7 @@ public class DeleteMusic {
 				return e.toString();
 			}
 		}
-		
+
 	}
 
 }
