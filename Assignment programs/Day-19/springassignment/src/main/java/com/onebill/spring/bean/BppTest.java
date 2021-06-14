@@ -15,7 +15,7 @@ public class BppTest implements BeanPostProcessor {
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		System.out.println("\nBean : "+bean);
 		System.out.println("Bean Name : "+beanName);
-		System.out.println("Inside postProcessBeforeInitialization...");
+		System.out.println("Inside postProcessAfterInitialization...\n");
 		return bean;
 	}
 	
