@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<user-info>
+	<emp-id>1</emp-id>
+	<name>Tony</name>
+	<email-id>Tony@Stark.com</email-id>
+	<salary>50000.0</salary>
+	<other-info>
+		<age>35</age>
+		<gender>Male</gender>
+		<is-married>false</is-married>
+	</other-info>
+	<user-addresses>
+		<userAddresses>
+			<house-no>10</house-no>
+			<street>MG Road</street>
+			<city>BLR</city>
+			<address-type>80</address-type>
+		</userAddresses>
+		<userAddresses>
+			<house-no>101</house-no>
+			<street>AT Road</street>
+			<city>Salem</city>
+			<address-type>84</address-type>
+		</userAddresses>
+		<userAddresses>
+			<house-no>377</house-no>
+			<street>EB Colony</street>
+			<city>Namakkal</city>
+			<address-type>71</address-type>
+		</userAddresses>
+	</user-addresses>
+</user-info>

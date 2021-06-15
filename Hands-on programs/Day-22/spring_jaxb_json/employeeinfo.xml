@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<employee-info>
+    <emp-id>1</emp-id>
+    <name>Tony</name>
+    <phone-no>987654321</phone-no>
+    <mail-id>Tony@stark.com</mail-id>
+    <dob>2021-06-15T13:31:38.228+05:30</dob>
+    <doj>2021-06-15T13:31:38.228+05:30</doj>
+    <dept-id>23</dept-id>
+    <salary>50000.0</salary>
+</employee-info>

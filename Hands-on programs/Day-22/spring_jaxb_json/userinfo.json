@@ -1,0 +1,32 @@
+{
+	"empid": 1,
+	"name": "Tony",
+	"emailId": "Tony@Stark.com",
+	"salary": 50000.0,
+	"password": "qwerty",
+	"userOtherInfo": {
+		"age": 35,
+		"gender": "Male",
+		"married": false
+	},
+	"userAddresses": [
+		{
+			"houseNumber": 10,
+			"street": "MG Road",
+			"city": "BLR",
+			"typeOfAddress": "P"
+		},
+		{
+			"houseNumber": 101,
+			"street": "AT Road",
+			"city": "Salem",
+			"typeOfAddress": "T"
+		},
+		{
+			"houseNumber": 377,
+			"street": "EB Colony",
+			"city": "Namakkal",
+			"typeOfAddress": "G"
+		}
+	]
+}
